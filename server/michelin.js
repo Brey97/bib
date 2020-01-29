@@ -81,7 +81,7 @@ const parseBib = data => {
   const url =[];
   for (let i = 1; i < 22; i++) {
 
-  url.push('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href'));
+  url.push('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href');
 
 }
 
