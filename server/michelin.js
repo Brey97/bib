@@ -29,9 +29,7 @@ module.exports.scrapeRestaurant = async url => {
   if (status >= 200 && status < 300) {
     return parseRestaurant(data);
   }
-
   console.error(status);
-
   return null;
 };
 
@@ -42,9 +40,7 @@ module.exports.scrapePage = async url => {
   if (status >= 200 && status < 300) {
     return parsePage(data);
   }
-
   console.error(status);
-
   return null;
 };
 
@@ -53,7 +49,7 @@ module.exports.scrapeBib = async url => {
   const {data, status} = response;
 
   if (status >= 200 && status < 300) {
-    return parsePage(data);
+    return parseBib(data);
   }
 
   console.error(status);
@@ -61,33 +57,32 @@ module.exports.scrapeBib = async url => {
   return null;
 };
 
+
 const parsePage = data => {
   const $ = cheerio.load(data);
   const url =[];
   for (let i = 1; i < 22; i++) {
 
-  url.push('https://guide.michelin.com'+$('body > main > section.section-main.search-results.search-listing-result > div > div > div.row.restaurant__list-row.js-toggle-result.js-geolocation > div:nth-child('+i+') > div > a').attr('href'));
+    url.push('https://guide.michelin.com'+$('.row.restaurant__list-row.js-toggle-result.js-geolocation > div:nth-child('+i+') > div > a').attr('href'));
 
 }
-
-
 	url.splice(8,1);
+
 
   return url;
 };
 
 const parseBib = data => {
   const $ = cheerio.load(data);
-  const url =[];
-  for (let i = 1; i < 22; i++) {
-
-  url.push('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href');
-
+  const url_restaurant =[];
+  for (let i = 1; i < 29; i++) {
+    url_restaurant.push('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href');
+}
+  const url_total=[];
+  for (let i = 1; i < 29; i++) {
+    url_restaurant.push('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href');
 }
 
-	url.splice(8,1);
-  /*const url =$('body > main > section.section-main.search-results.search-listing-result > div > div > div.row.restaurant_list-row.js-toggle-result.js-geolocation > div:nth-child(1) > div > div.card_menu-image > a').attr('href');
-  */
   return url;
 };
 
