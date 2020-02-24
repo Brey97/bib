@@ -1,9 +1,11 @@
 /* eslint-disable no-console, no-process-exit */
+const axios = require('axios');
+const cheerio = require('cheerio');
 const michelin = require('./michelin');
 
 
 
-async function sandbox_Restaurant (searchLink = 'https://guide.michelin.com/fr/fr/auvergne-rhone-alpes/grenoble/restaurant/le-rousseau') {
+async function sandbox (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand') {
   try {
     console.log(`🕵️‍♀️  browsing ${searchLink} source`);
 
@@ -18,13 +20,13 @@ async function sandbox_Restaurant (searchLink = 'https://guide.michelin.com/fr/f
   }
 }
 
-async function sandbox_Page (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand') {
+async function sandbox_Page (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/2') {
   try {
     console.log(`🕵️‍♀️  browsing ${searchLink} source`);
 
-    const restaurants = await michelin.scrapePage(searchLink);
+    const restaurant = await michelin.scrapePage(searchLink);
 
-    console.log(restaurants);
+    console.log(restaurant);
     console.log('done');
     process.exit(0);
   } catch (e) {
@@ -33,21 +35,25 @@ async function sandbox_Page (searchLink = 'https://guide.michelin.com/fr/fr/rest
   }
 }
 
-async function sandbox_Bib (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand') {
+async function sandbox_restaurant () {
   try {
-    console.log(`🕵️‍♀️  browsing ${searchLink} source`);
 
-    const restaurants = await michelin.scrapePage(searchLink);
-    const restaurants2;
+    console.log(`🕵️‍♀️  browsing test source`);
 
-    for each (var item in restaurants) {
+    const url_restaurant =[];
+    for (let i = 1; i < 29; i++) {
+      url_restaurant.push(('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href'));
+      console.log(url_restaurant[i]);
+  ;
+  }
 
-      restaurants2 = await michelin.scrapeRestaurant()
-      console.log(restaurants2);
-    }
+    console.log(url_restaurant);
+    for (let i = 1; i < 29; i++) {
+      item = await michelin.scrapePage(url_restaurant[i]);
+      console.log(item);
+  }
 
 
-    console.log(restaurants);
     console.log('done');
     process.exit(0);
   } catch (e) {
@@ -55,9 +61,7 @@ async function sandbox_Bib (searchLink = 'https://guide.michelin.com/fr/fr/resta
     process.exit(1);
   }
 }
-
-
 
 const [,, searchLink] = process.argv;
 
-sandbox_Page(searchLink);
+sandbox_restaurant(searchLink);

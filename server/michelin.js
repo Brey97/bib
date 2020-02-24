@@ -68,7 +68,6 @@ const parsePage = data => {
 }
 	url.splice(8,1);
 
-
   return url;
 };
 
