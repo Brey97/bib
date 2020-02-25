@@ -5,7 +5,7 @@ const michelin = require('./michelin');
 
 
 
-async function sandbox (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand') {
+async function sandbox (searchLink) {
   try {
     console.log(`🕵️‍♀️  browsing ${searchLink} source`);
 
@@ -42,15 +42,14 @@ async function sandbox_restaurant () {
 
     const url_restaurant =[];
     for (let i = 1; i < 29; i++) {
-      url_restaurant.push(('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i).attr('href'));
-      console.log(url_restaurant[i]);
-  ;
+      url_restaurant.push(('https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/'+i));
   }
 
     console.log(url_restaurant);
     for (let i = 1; i < 29; i++) {
       item = await michelin.scrapePage(url_restaurant[i]);
       console.log(item);
+
   }
 
 
