@@ -6,6 +6,42 @@ const cheerio = require('cheerio');
  * @param  {String} data - html response
  * @return {Object} restaurant
  */
+
+const parse = data => {
+  const $ = cheerio.load(data);
+  const url =[];
+  for (let pas = 1; pas < 22; pas++) {
+  let links = $('body > main > section.section-main.search-results.search-listing-result > div > div > div.row.restaurant__list-row.js-toggle-result.js-geolocation > div:nth-child('+pas+') > div > a').attr('href');
+  if(typeof(links)!='undefined' && links != '/fr/fr/subscribe')
+  {
+    url.push(links);
+  }
+    
+}
+  
+  
+  /*const url =$('body > main > section.section-main.search-results.search-listing-result > div > div > div.row.restaurant__list-row.js-toggle-result.js-geolocation > div:nth-child(1) > div > div.card__menu-image > a').attr('href');
+  */
+  return url;
+};
+
+module.exports.scrapeRestaurantAll = async url => {
+  const urls =[];
+  for (let pas = 1; pas < 30; pas++) {
+    
+    const response = await axios(url+pas);
+    console.log(url+pas);
+    const {data, status} = response;
+    if (status >= 200 && status < 300) {
+      urls.push(parse(data));
+    }
+  
+  }
+  
+    return urls;
+  
+};
+
 const parseRestaurant = data => {
   const $ = cheerio.load(data);
   const name = $('.section-main h2.restaurant-details__heading--title').text();

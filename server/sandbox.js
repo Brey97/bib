@@ -3,9 +3,37 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const michelin = require('./michelin');
 
+let restaurant = [];
+async function sandbox (searchLink = 'https://guide.michelin.com/fr/fr/restaurants/bib-gourmand/page/') {
+  try {
+    console.log(`🕵️‍♀️  browsing ${searchLink} source`);
+
+    
+  /*const search = await test.scrapeRestaurant(searchLink);
+  console.log(search)*/
+  let allrestaurant = [];
+  restaurant = await michelin.scrapeRestaurantAll(searchLink);
+  for (let pas = 0; pas < 29; pas++) {
+    let taille =restaurant[pas].length;
+    for (let pas2 = 0; pas2 < taille; pas2++) {
+      let restaurants = await michelin.scrapeRestaurant('https://guide.michelin.com'+restaurant[pas][pas2]);
+      allrestaurant.push(restaurants);
+  
+  } 
+  
+  }
+  
+  console.log(allrestaurant);
+  console.log('done');
+    process.exit(0);
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
 
 
-async function sandbox (searchLink) {
+async function sandbox_test(searchLink) {
   try {
     console.log(`🕵️‍♀️  browsing ${searchLink} source`);
 
@@ -63,4 +91,4 @@ async function sandbox_restaurant () {
 
 const [,, searchLink] = process.argv;
 
-sandbox_restaurant(searchLink);
+sandbox(searchLink);
