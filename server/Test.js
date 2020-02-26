@@ -5,13 +5,13 @@ const querystring = require('querystring');
 module.exports.scrapeRestaurant = async page => {
   const payload = {
     'page' : page,
-    'request_id' : 'f1ff8fe124d5b47829c45d5900d5a41d'
+    'request_id' : 'c2017c5c4acb3217c38c57d3f4584467'
   }
 
   const options= {
     'url' : 'https://www.maitresrestaurateurs.fr/annuaire/ajax/loadresult',
     'method' : 'POST',
-    'headers' : {'content-type':'application/x-www-form-urlencoded'},
+    //'headers' : {'content-type':'application/x-www-form-urlencoded'},
     'data' : querystring.stringify(payload)
   };
   const response = await axios(options);
@@ -27,12 +27,10 @@ module.exports.scrapeRestaurant = async page => {
 const parseRestaurant = data => {
   const $ = cheerio.load(data);
   const url =[];
-  $('a.annuaire_result_list').each((i,element) => {
-    const link = $(element).attr('href');
+  $('.annuaire_result_list').each((i,element) => {
+    const link = $("div div a",element).attr('href');
     url.push(link);
   });
-
-  console.log('url');
 
   return url;
 };

@@ -35,10 +35,7 @@ async function sandbox (searchLink = 'https://guide.michelin.com/fr/fr/restauran
 async function sandbox_maitre() {
   try {
 
-    for (let pas = 0; pas < 15; pas++) {
-      const restaurant = await Test.scrapeRestaurant(pas);
-
-    }
+    const restaurant = await Test.scrapeRestaurant(1);
 
 
     console.log(restaurant);
