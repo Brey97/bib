@@ -131,7 +131,6 @@ async function intersect(){
 async function main(){
   await scrapeAllBIB();
   await scrapeAllMR();
-
   await intersect();
 
   console.log(await interRest);
