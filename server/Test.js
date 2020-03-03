@@ -27,7 +27,7 @@ module.exports.scrapeRestaurant = async page => {
 const parseRestaurant = data => {
   const $ = cheerio.load(data);
   const url =[];
-  $('.annuaire_result_list').each((i,element) => {
+  $('body').find('.annuaire_result_list').children().each((i, elem) => {
     const link = $("div div a",element).attr('href');
     url.push(link);
   });
